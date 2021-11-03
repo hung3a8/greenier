@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+from jinja2 import select_autoescape
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -120,6 +123,8 @@ INSTALLED_APPS = [
     'registration',
     'martor',
     'product',
+    'django_jinja',
+    'statici18n',
 ]
 
 MIDDLEWARE = [
@@ -137,10 +142,14 @@ ROOT_URLCONF = 'apicta.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'match_extension': ('.html', '.txt'),
+            'match_regex': '^(?!admin/)',
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -148,6 +157,29 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'product.template_context.site_name',
                 'product.template_context.navbar',
+            ],
+            'autoescape': select_autoescape(['html', 'xml']),
+            'trim_blocks': True,
+            'lstrip_blocks': True,
+            'extensions': DEFAULT_EXTENSIONS + [
+                'product.jinja2.JINJA2Extension',
+            ],
+        },
+    },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
