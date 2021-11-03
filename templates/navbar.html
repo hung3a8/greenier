@@ -1,0 +1,48 @@
+<style>
+    .nav-item-chosen {
+        border-bottom: 3px solid green;
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fa fa-leaf" style="color: green;"></i> Greenier</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% for item in navbar_items %}
+                    {% if item.children.exists() %}
+                    <li class="nav-item dropdown {% if item.name == navbar_items_chosen %}nav-item-chosen{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ item.name }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for child in item.children.all() %}
+                                <li><a class="dropdown-item" href="{{ child.url }}">{{ child.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item {% if item.name == navbar_items_chosen %}nav-item-chosen{% endif %}">
+                        <a class="nav-link" href="{{ item.url }}">{{ item.name }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="user">
+            {% if user.is_authenticated %}
+            <form class="form-inline" action="{{ url('auth_logout') }}" method="POST">
+                {% csrf_token %}
+                <span class="navbar-text">Welcome, <a href="/user/{{ user.username }}">{{ user.username }}</a> |</span>
+                <button class="navbar-text btn btn-link p-0 m-0" style="vertical-align: unset;" type="submit">Logout</button>
+            </form>
+            {% else %}
+                <a href="{{ url('auth_login') }}" class="navbar-text">Login |</a>
+                <a href="{{ url('registration_register') }}" class="navbar-text">Register</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

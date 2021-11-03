@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ SITE_NAME }} - {{ SITE_LONG_NAME }}</title>
+    <link rel="stylesheet" href="{{ static('bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ static('bootstrap/css/bootstrap-grid.min.css') }}">
+    <link rel="stylesheet" href="{{ static('fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ static('base.css') }}">
+    <script src="{{ static('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ static('fontawesome/js/all.min.js') }}"></script>
+    {% block media_css %}{% endblock %}
+    {% block media_js %}{% endblock %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% block body %}{% endblock %}
+    {% include 'footer.html' %}
+</body>
+</html>
