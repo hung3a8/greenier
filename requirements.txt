@@ -1,0 +1,8 @@
+django>=2.2,<3.0
+django-registration-redux
+django-debug-toolbar
+mysqlclient
+martor
+
+flake8
+flake8-import-order
