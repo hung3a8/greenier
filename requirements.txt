@@ -1,6 +1,8 @@
 django>=2.2,<3.0
 django-registration-redux
 django-debug-toolbar
+django-jinja
+django-statici18n
 mysqlclient
 martor
 
