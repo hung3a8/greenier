@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block body %}
+<section>
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem;">
+                    <div class="row g-0">
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <span class="h1 fw-bold mb-0"><i class="fa fa-leaf" style="color: green;"></i> Greenier</span>
+                                </div>
+                                {% if form.non_field_errors() %}
+                                    <div class="alert alert-danger">
+                                        {% for err in form.non_field_errors() %}
+                                            <p class="m-0" class="form-error">{{ err }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create new account</h5>
+
+                                <div class="form-outline mb-4">
+                                    {{ form.username.errors }}
+                                    <label class="form-label" for="id_username">Username</label>
+                                    <input type="text" id="id_username" name="username" required autofocus class="form-control form-control-lg" />
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    {{ form.email.errors }}
+                                    <label class="form-label" for="id_email">Email</label>
+                                    <input type="email" id="id_email" name="email" required autofocus class="form-control form-control-lg" />
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    {{ form.password1.errors }}
+                                    <label class="form-label" for="id_password">Password</label>
+                                    <input type="password" id="id_password1" name="password1" required class="form-control form-control-lg" />
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    {{ form.password2.errors }}
+                                    <label class="form-label" for="id_password2">Confirm password</label>
+                                    <input type="password" id="id_password2" name="password2" required class="form-control form-control-lg" />
+                                </div>
+                                <div class="pt-1 mb-4">
+                                    <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
+                                </div>
+                            </form>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img
+                            src="{{ static('images/login-side.jpg') }}"
+                            alt="login form"
+                            class="img-fluid" style="border-radius: 0 1rem 1rem 0; height: 100%; object-position: 85% 85%; object-fit: cover;"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

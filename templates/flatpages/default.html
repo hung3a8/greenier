@@ -1,0 +1,7 @@
+{% extends 'common-content.html' %}
+
+{% set title=flatpage.title %}
+
+{% block content %}
+    {{ flatpage.content|markdown }}
+{% endblock %}

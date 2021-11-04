@@ -37,6 +37,9 @@
             <form class="form-inline" action="{{ url('auth_logout') }}" method="POST">
                 {% csrf_token %}
                 <span class="navbar-text">Welcome, <a href="/user/{{ user.username }}">{{ user.username }}</a> |</span>
+                {% if user.is_staff %}
+                    <a class="navbar-text" href="{{ url('admin:index') }}">Admin Dashboard |</a>
+                {% endif %}
                 <button class="navbar-text btn btn-link p-0 m-0" style="vertical-align: unset;" type="submit">Logout</button>
             </form>
             {% else %}
