@@ -43,6 +43,8 @@ LOGIN_REDIRECT_URL = "/"
 BAD_MAIL_PROVIDERS = ()
 BAD_MAIL_PROVIDER_REGEX = ()
 
+SAFE_IMAGE_EXTENSIONS = ('.png', '.jpg')
+
 # Change to other hosts if needed
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
@@ -145,19 +147,6 @@ KEEP_DJANGO_TEMPLATES = ['admin',]
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-    {
         'BACKEND': 'django_jinja.backend.Jinja2',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
@@ -179,6 +168,19 @@ TEMPLATES = [
             'lstrip_blocks': True,
             'extensions': DEFAULT_EXTENSIONS + [
                 'product.jinja2.JINJA2Extension',
+            ],
+        },
+    },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
