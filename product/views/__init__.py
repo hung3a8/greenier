@@ -1,1 +1,1 @@
-from .home import HomePageView
+from .extra import TitledView

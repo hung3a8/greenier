@@ -43,6 +43,7 @@ LOGIN_REDIRECT_URL = "/"
 BAD_MAIL_PROVIDERS = ()
 BAD_MAIL_PROVIDER_REGEX = ()
 
+# Change to other hosts if needed
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ""
@@ -140,7 +141,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'apicta.urls'
 
+KEEP_DJANGO_TEMPLATES = ['admin',]
+
 TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
         'DIRS': [
@@ -163,23 +179,6 @@ TEMPLATES = [
             'lstrip_blocks': True,
             'extensions': DEFAULT_EXTENSIONS + [
                 'product.jinja2.JINJA2Extension',
-            ],
-        },
-    },
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
-        ],
-        'OPTIONS': {
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.media',
-                'django.template.context_processors.tz',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.request',
-                'django.contrib.messages.context_processors.messages',
             ],
         },
     },

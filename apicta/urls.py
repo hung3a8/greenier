@@ -20,19 +20,19 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from django.views.generic import TemplateView
-from product.views import HomePageView, register, user
+from product.views import TitledView, home, register, user
 
 register_patterns = [
     url(r'^login/$', user.CustomLoginView.as_view(), name='auth_login'),
     url(r'^logout/$', user.UserLogoutView.as_view(), name='auth_logout'),
     url(r'^register/$', register.RegistrationView.as_view(), name='registration_register'),
-    url(r'^register/complete$', TemplateView.as_view(template_name='registration/registration_complete.html'),
+    url(r'^register/complete$',
+        TitledView.as_view(title="Registration completed", template_name='registration/registration_complete.html'),
         name='registration_complete'),
-    url(r'^register/closed/$', TemplateView.as_view(template_name='registration/registration_closed.html'),
+    url(r'^register/closed/$', TitledView.as_view(template_name='registration/registration_closed.html'),
         name='registration_closed'),
     url(r'^activate/complete/$',
-        TemplateView.as_view(template_name='registration/activation_complete.html'),
+        TitledView.as_view(template_name='registration/activation_complete.html'),
         name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', register.ActivationView.as_view(), name='registration_activate'),
 ]
@@ -41,7 +41,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
-    url(r'^$', HomePageView.as_view(), name='home'),
+    url(r'^$', home.HomePageView.as_view(), name='home'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 try:

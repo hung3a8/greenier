@@ -25,7 +25,13 @@ class CustomLoginView(LoginView):
 
 
 class UserLogoutView(TemplateView):
+    title = 'Logout'
     template_name = 'registration/logout.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.kwargs.get('title', self.title)
+        return context
 
     def post(self, request, *args, **kwargs):
         auth_logout(request)
