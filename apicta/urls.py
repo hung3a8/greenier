@@ -43,7 +43,8 @@ urlpatterns = [
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 try:
     with open(os.path.join(os.path.dirname(__file__), 'local_urls.py')) as f:

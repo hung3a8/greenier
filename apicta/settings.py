@@ -43,6 +43,8 @@ LOGIN_REDIRECT_URL = "/"
 BAD_MAIL_PROVIDERS = ()
 BAD_MAIL_PROVIDER_REGEX = ()
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SAFE_IMAGE_EXTENSIONS = ('.png', '.jpg')
 
 # Change to other hosts if needed
@@ -156,6 +158,7 @@ TEMPLATES = [
             'match_extension': ('.html', '.txt'),
             'match_regex': '^(?!admin/)',
             'context_processors': [
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

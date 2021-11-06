@@ -1,3 +1,7 @@
+import os
+
+from django.conf import settings
+from django.core.files.storage import default_storage
 from django.views.generic import TemplateView
 
 
@@ -13,3 +17,12 @@ class TitledView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.kwargs.get('title', '')
         return context
+
+
+def picture_carousel(media_dir, prefix=""):
+    if not default_storage.exists(media_dir):
+        return []
+
+    files = default_storage.listdir(media_dir)[1]
+    return [os.path.join(default_storage.base_url, media_dir, f) for f in files
+            if f.startswith(prefix) and f.endswith(settings.SAFE_IMAGE_EXTENSIONS)]
