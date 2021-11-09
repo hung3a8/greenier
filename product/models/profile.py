@@ -1,3 +1,15 @@
+"""
+User should have: 
+- name
+- phone number
+- email
+- bio
+- date of birth
+- current greenier points
+
+How can we map items with user ?
+"""
+
 import re
 
 from django.core.exceptions import ValidationError
@@ -13,8 +25,11 @@ def phone_number_validator(value):
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', related_name='profile', on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, blank=True, null=True)
+    email = models.EmailField(max_length=254)
     bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+
+    points = models.BigIntegerField()
+
     def __str__(self):
         return self.user.username
 
