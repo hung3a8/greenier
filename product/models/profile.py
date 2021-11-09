@@ -1,3 +1,19 @@
+"""
+User should have: 
+- name
+- avatar
+- phone number
+- email
+- bio
+- date of birth
+- current greenier points
+
+TBI:
+- location (this will be used when implementing products search)
+- avatar (django-avatar ?)
+- friend list
+"""
+
 import re
 
 from django.core.exceptions import ValidationError
@@ -14,7 +30,10 @@ class Profile(models.Model):
     user = models.OneToOneField('auth.User', related_name='profile', on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(auto_now=False, auto_now_add=False)
+    email = models.EmailField(max_length=254)
+    points = models.BigIntegerField()
+
     def __str__(self):
         return self.user.username
 
