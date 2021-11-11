@@ -11,7 +11,7 @@ Setup database for the server:
 
     mysql -uroot -p
     mariadb> CREATE DATABASE apicta DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
-    mariadb> GRANT ALL PRIVILEGES ON dmoj.* to 'dmoj'@'localhost' IDENTIFIED BY '<password>';
+    mariadb> GRANT ALL PRIVILEGES ON apicta.* to 'dmoj'@'localhost' IDENTIFIED BY '<password>';
     mariadb> exit
 
 Activate the virtual environment:
