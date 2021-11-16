@@ -24,3 +24,8 @@ class CustomAuthenticationForm(AuthenticationForm):
         if user is not None:
             super(CustomAuthenticationForm, self).confirm_login_allowed(user)
         return super(CustomAuthenticationForm, self).clean()
+
+class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=255)
+    last_name = forms.CharField(max_length=255)
+    email = forms.EmailField()
