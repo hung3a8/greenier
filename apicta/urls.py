@@ -20,7 +20,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from product.views import TitledView, home, register, user, profile
+from product.views import TitledView, home, profile, register, user
 
 register_patterns = [
     url(r'^login/$', user.CustomLoginView.as_view(), name='auth_login'),
