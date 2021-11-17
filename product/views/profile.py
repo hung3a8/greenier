@@ -1,6 +1,7 @@
 from django.views.generic import DetailView
+from django.views.generic.edit import UpdateView
 
-from judge.models import Profile
+from product.models.profile import Profile
 
 
 class UserProfileView(DetailView):
@@ -9,3 +10,15 @@ class UserProfileView(DetailView):
 
     def get_object(self):
         return self.request.user.profile
+
+
+class ProfileEditView(UpdateView):
+    model = Profile
+    fields = [
+        'avatar',
+        'first_name',
+        'last_name',
+        'phone',
+        'email'
+        'bio'
+    ]
