@@ -1,24 +1,15 @@
-from django.views.generic import DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic import DetailView, UpdateView
 
 from product.models.profile import Profile
 
 
-class UserProfileView(DetailView):
+class ProfileDetailView(DetailView):
     model = Profile
-    template_name = 'user/user-detail.html'
+    template_name = 'profile/profile_detail.html'
 
     def get_object(self):
         return self.request.user.profile
 
 
-class ProfileEditView(UpdateView):
+class ProfileUpdateView(UpdateView):
     model = Profile
-    fields = [
-        'avatar',
-        'first_name',
-        'last_name',
-        'phone',
-        'email'
-        'bio'
-    ]
