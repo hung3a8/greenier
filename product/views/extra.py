@@ -19,7 +19,7 @@ class TitledView(TemplateView):
         return context
 
 
-def picture_carousel(media_dir, prefix=""):
+def picture_carousel(media_dir, prefix=''):
     if not default_storage.exists(media_dir):
         return []
 
