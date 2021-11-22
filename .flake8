@@ -1,6 +1,6 @@
 [flake8]
 max-line-length = 120
-application-import-names = dmoj,judge,django_ace
+application-import-names = apicta, product
 import-order-style = pycharm
 enable-extensions = G
 ignore =
@@ -18,4 +18,3 @@ exclude =
     ./apicta/local_settings.py, # belongs to the user
     ./apicta/local_urls.py, # belongs to the user
     ./.ci.settings.py, # is actually a fragment to be included by settings.py
-    fc_*
