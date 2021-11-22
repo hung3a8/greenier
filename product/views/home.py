@@ -10,5 +10,4 @@ class HomePageView(TemplateView):
         context = super().get_context_data(**kwargs)
         if hasattr(settings, 'HOMEPAGE_PICTURE_CAROUSEL'):
             context['carousel'] = picture_carousel(settings.HOMEPAGE_PICTURE_CAROUSEL, "carousel")
-            print(context['carousel'])
         return context
