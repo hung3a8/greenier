@@ -1,7 +1,45 @@
 name: Lint testing
-on: [push]
+on: [push, pull-request]
 jobs:
-  Test-Actions:
-    runs-on: ubuntu-20.04
+  lint:
+    runs-on: ubuntu-latest
     steps:
-      - run: echo "Finished"
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install flake8
+        run: pip install flake8 flake8-import-order flake8-future-import flake8-commas flake8-logging-format flake8-quotes
+      - name: Lint with flake8
+        run: |
+          flake8 --version
+          flake8
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+        uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Cache pip
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: pip-${{ runner.os }}-${{ secrets.CACHE_VERSION }}-${{ hashFiles('requirements.txt') }}
+    - name: Install unit test dependencies
+      run: |
+        pip install wheel
+        pip install -r requirements.txt
+        pip install mysqlclient coverage
+        cp .ci.settings.py local_settings.py
+    - name: Start MySQL
+      run: sudo systemctl start mysql.service
+    - name: Run unit tests
+      run: coverage run --source=. manage.py test product
+    - name: Generate coverage report
+      run: coverage xml
+
