@@ -9,7 +9,7 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'apicta',
+        'NAME': 'greenier',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',

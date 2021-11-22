@@ -1,5 +1,5 @@
 """
-WSGI config for apicta project.
+WSGI config for greenier project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dmoj.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'greenier.settings')
 
 try:
     import MySQLdb  # noqa: F401, imported for side effect
