@@ -1,6 +1,6 @@
 from django.views.generic import DetailView
 
-from judge.models import Profile
+from product.models import Profile
 
 
 class UserProfileView(DetailView):

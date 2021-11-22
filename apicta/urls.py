@@ -20,6 +20,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
+
 from product.views import TitledView, home, register, user
 
 register_patterns = [
@@ -27,13 +28,13 @@ register_patterns = [
     url(r'^logout/$', user.UserLogoutView.as_view(), name='auth_logout'),
     url(r'^register/$', register.RegistrationView.as_view(), name='registration_register'),
     url(r'^register/complete$',
-        TitledView.as_view(title="Registration completed", template_name='registration/registration_complete.html'),
+        TitledView.as_view(title='Registration completed', template_name='registration/registration_complete.html'),
         name='registration_complete'),
     url(r'^register/closed/$',
-        TitledView.as_view(title="Registraion closed", template_name='registration/registration_closed.html'),
+        TitledView.as_view(title='Registraion closed', template_name='registration/registration_closed.html'),
         name='registration_closed'),
     url(r'^activate/complete/$',
-        TitledView.as_view(title="Activation completed", template_name='registration/activation_complete.html'),
+        TitledView.as_view(title='Activation completed', template_name='registration/activation_complete.html'),
         name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', register.ActivationView.as_view(), name='registration_activate'),
 ]

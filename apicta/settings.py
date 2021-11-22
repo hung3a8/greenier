@@ -31,26 +31,26 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Site settings
-SITE_NAME = "Greenier"
-SITE_LONG_NAME = "A greenary trading platform"
-SITE_ADMIN_EMAIL = ""
+SITE_NAME = 'Greenier'
+SITE_LONG_NAME = 'A greenary trading platform'
+SITE_ADMIN_EMAIL = ''
 
 ACCOUNT_ACTIVATION_DAYS = 1
 
 CSRF_COOKIE_HTTPONLY = False
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = '/'
 
 BAD_MAIL_PROVIDERS = ()
 BAD_MAIL_PROVIDER_REGEX = ()
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SAFE_IMAGE_EXTENSIONS = ('.png', '.jpg')
 
 # Change to other hosts if needed
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
@@ -76,7 +76,7 @@ MARTOR_TOOLBAR_BUTTONS = [
     'bold', 'italic', 'horizontal', 'heading', 'pre-code',
     'blockquote', 'unordered-list', 'ordered-list',
     'link', 'image-link', 'image-upload', 'emoji',
-    'direct-mention', 'toggle-maximize', 'help'
+    'direct-mention', 'toggle-maximize', 'help',
 ]
 
 # To setup the martor editor with title label or not (default is False)
@@ -84,11 +84,11 @@ MARTOR_ENABLE_LABEL = False
 
 # Imgur API Keys
 MARTOR_IMGUR_CLIENT_ID = 'your-client-id'
-MARTOR_IMGUR_API_KEY   = 'your-api-key'
+MARTOR_IMGUR_API_KEY = 'your-api-key'
 
 # Markdownify
-MARTOR_MARKDOWNIFY_FUNCTION = 'martor.utils.markdownify' # default
-MARTOR_MARKDOWNIFY_URL = '/martor/markdownify/' # default
+MARTOR_MARKDOWNIFY_FUNCTION = 'martor.utils.markdownify'  # default
+MARTOR_MARKDOWNIFY_URL = '/martor/markdownify/'  # default
 
 # Markdown extensions (default)
 MARTOR_MARKDOWN_EXTENSIONS = [
@@ -110,8 +110,8 @@ MARTOR_MARKDOWN_EXTENSIONS = [
 MARTOR_MARKDOWN_EXTENSION_CONFIGS = {}
 
 # Markdown urls
-MARTOR_UPLOAD_URL = '/martor/uploader/' # default
-MARTOR_SEARCH_USERS_URL = '/martor/search-user/' # default
+MARTOR_UPLOAD_URL = '/martor/uploader/'  # default
+MARTOR_SEARCH_USERS_URL = '/martor/search-user/'  # default
 
 
 # Application definition
@@ -145,7 +145,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'apicta.urls'
 
-KEEP_DJANGO_TEMPLATES = ['admin',]
+KEEP_DJANGO_TEMPLATES = ['admin']
 
 TEMPLATES = [
     {
@@ -203,7 +203,7 @@ DATABASES = {
         'PASSWORD': '<password>',
         'HOST': 'localhost',
         'PORT': '3306',
-    }
+    },
 }
 
 
@@ -247,7 +247,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "resources"),
+    os.path.join(BASE_DIR, 'resources'),
 ]
 
 try:
