@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+
 from product.models import Navbar
 
 

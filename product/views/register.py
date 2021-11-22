@@ -6,10 +6,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import get_default_password_validators
 from django.db import transaction
 from django.utils.translation import gettext, gettext_lazy as _
-from product.models import Profile
 from registration.backends.default.views import (ActivationView as OldActivationView,
                                                  RegistrationView as OldRegistrationView)
 from registration.forms import RegistrationForm
+
+from product.models import Profile
+
 
 bad_mail_regex = list(map(re.compile, settings.BAD_MAIL_PROVIDER_REGEX))
 

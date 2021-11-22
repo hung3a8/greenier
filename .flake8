@@ -14,7 +14,4 @@ per-file-ignores =
     ./*/__init__.py:F401,F403
     # E501: line too long, ignore in migrations
     ./product/migrations/*.py:E501
-exclude =
-    ./apicta/local_settings.py, # belongs to the user
-    ./apicta/local_urls.py, # belongs to the user
-    ./.ci.settings.py, # is actually a fragment to be included by settings.py
+exclude = ./apicta/local_settings.py, ./apicta/local_urls.py, ./.ci.settings.py,

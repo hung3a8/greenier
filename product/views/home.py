@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.views.generic import TemplateView
+
 from product.views.extra import picture_carousel
 
 
