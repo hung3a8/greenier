@@ -21,7 +21,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from product.views import TitledView, home, register, user
-from product.urls import profile
 from product.views.profile import ProfileDetailView, ProfileUpdateView
 
 register_patterns = [
