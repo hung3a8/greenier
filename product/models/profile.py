@@ -27,4 +27,3 @@ class Profile(models.Model):
         if self.phone:
             phone_number_validator(self.phone)
         return super().clean()
-    

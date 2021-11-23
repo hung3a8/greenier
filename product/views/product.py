@@ -1,5 +1,4 @@
-from django.urls import reverse
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, UpdateView
 from product.models import Product
 
 

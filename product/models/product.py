@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from product.models.profile import Profile
+from product.models import Profile
 
 
 class Product(models.Model):
