@@ -43,9 +43,9 @@ urlpatterns = [
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
-    re_path(r'user/<str:username>/', include([
-        re_path(r'', profile.ProfileDetailView.as_view(), name='profile-detail'),
-        re_path(r'update/', profile.ProfileUpdateView.as_view(), name='profile-update'),
+    url(r'^users/(?P<user>[\w-]+)/$', include([
+        url(r'^$', profile.ProfileDetailView.as_view(), name='profile-detail'),
+        url(r'^update$', profile.ProfileUpdateView.as_view(), name='profile-update')
     ])),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
