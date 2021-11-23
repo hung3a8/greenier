@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
-    path('user/<str:username>/', include([
+    re_path(r'user/<str:username>/', include([
         re_path(r'', profile.ProfileDetailView.as_view(), name='profile-detail'),
         re_path(r'update/', profile.ProfileUpdateView.as_view(), name='profile-update'),
     ])),
