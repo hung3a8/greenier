@@ -47,5 +47,3 @@ The database is currently empty. In the future, we will provide you some initial
 You should create an admin account with which to login initially.
 
     (venv) python3 manage.py createsuperuser
-
-If after running server, you can't access the user detail page, then reapply the migration 0002.
