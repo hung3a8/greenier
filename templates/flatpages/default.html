@@ -3,5 +3,5 @@
 {% set title=flatpage.title %}
 
 {% block content %}
-    {{ flatpage.content|markdown }}
+    {{ flatpage.content|markdown|safe }}
 {% endblock %}

@@ -42,7 +42,9 @@ We must generate the schema for the database, since it is currently empty:
 
     (venv) python3 manage.py migrate
 
-The database is currently empty. In the future, we will provide you some initial data for the server.
+The database is currently empty. You will now need to load the default fixtures:
+
+    (venv) pythn3 manage.py loaddata demo
 
 You should create an admin account with which to login initially.
 
