@@ -145,28 +145,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'greenier.urls'
 
-KEEP_DJANGO_TEMPLATES = ['admin']
-
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
         ],
-        'APP_DIRS': True,
+        'APP_DIRS': False,
         'OPTIONS': {
             'match_extension': ('.html', '.txt'),
             'match_regex': '^(?!admin/)',
@@ -184,6 +169,19 @@ TEMPLATES = [
             'lstrip_blocks': True,
             'extensions': DEFAULT_EXTENSIONS + [
                 'product.jinja2.JINJA2Extension',
+            ],
+        },
+    },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
