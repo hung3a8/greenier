@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, UpdateView
-
 from product.models import Profile
+
 
 
 class ProfileDetailView(DetailView):
