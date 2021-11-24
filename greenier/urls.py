@@ -45,8 +45,8 @@ urlpatterns = [
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
     url(r'^user/(?P<user>[\w-]+)/', include([
-        url(r"^$", profile.ProfileDetailView.as_view(), name=""),
-        url(r"^update$", profile.ProfileUpdateView.as_view(), name=""),
+        url(r'^$', profile.ProfileDetailView.as_view(), name=""),
+        url(r'^update$', profile.ProfileUpdateView.as_view(), name=""),
 
     ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
