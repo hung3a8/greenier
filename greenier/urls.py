@@ -1,4 +1,4 @@
-"""apicta URL Configuration
+"""greenier URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -19,21 +19,22 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, re_path
-from product.views import TitledView, home, profile, register, user
+from django.urls import path
+
+from product.views import TitledView, home, register, user
 
 register_patterns = [
     url(r'^login/$', user.CustomLoginView.as_view(), name='auth_login'),
     url(r'^logout/$', user.UserLogoutView.as_view(), name='auth_logout'),
     url(r'^register/$', register.RegistrationView.as_view(), name='registration_register'),
     url(r'^register/complete$',
-        TitledView.as_view(title="Registration completed", template_name='registration/registration_complete.html'),
+        TitledView.as_view(title='Registration completed', template_name='registration/registration_complete.html'),
         name='registration_complete'),
     url(r'^register/closed/$',
-        TitledView.as_view(title="Registraion closed", template_name='registration/registration_closed.html'),
+        TitledView.as_view(title='Registraion closed', template_name='registration/registration_closed.html'),
         name='registration_closed'),
     url(r'^activate/complete/$',
-        TitledView.as_view(title="Activation completed", template_name='registration/activation_complete.html'),
+        TitledView.as_view(title='Activation completed', template_name='registration/activation_complete.html'),
         name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', register.ActivationView.as_view(), name='registration_activate'),
 ]
@@ -43,10 +44,6 @@ urlpatterns = [
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
-    url(r'^users/(?P<user>[\w-]+)/$', include([
-        url(r'^$', profile.ProfileDetailView.as_view(), name='profile-detail'),
-        url(r'^update$', profile.ProfileUpdateView.as_view(), name='profile-update')
-    ])),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

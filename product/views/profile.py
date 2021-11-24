@@ -1,15 +1,11 @@
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView
 
 from product.models import Profile
 
 
-class ProfileDetailView(DetailView):
+class UserProfileView(DetailView):
     model = Profile
-    template_name = 'profile/profile_detail.html'
+    template_name = 'user/user-detail.html'
 
     def get_object(self):
         return self.request.user.profile
-
-
-class ProfileUpdateView(UpdateView):
-    model = Profile
