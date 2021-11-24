@@ -13,4 +13,4 @@ class ProfileDetailView(DetailView):
 
 class ProfileUpdateView(UpdateView):
     model = Profile
-    template_name = "profile/profile_update.html"
+    template_name = 'profile/profile_update.html'
