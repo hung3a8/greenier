@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from product.views import TitledView, home, register, user
+from product.views import TitledView, home, profile, register, user
 
 register_patterns = [
     url(r'^login/$', user.CustomLoginView.as_view(), name='auth_login'),
@@ -44,6 +44,11 @@ urlpatterns = [
     url(r'^martor/', include('martor.urls')),
     path('accounts/', include(register_patterns)),
     url(r'^$', home.HomePageView.as_view(), name='home'),
+    url(r'^user/(?P<user>[\w-]+)/', include([
+        url(r"^$", profile.ProfileDetailView.as_view(), name=""),
+        url(r"^update$", profile.ProfileUpdateView.as_view(), name=""),
+
+    ]))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
