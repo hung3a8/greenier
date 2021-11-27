@@ -12,9 +12,12 @@ def phone_number_validator(value):
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', related_name='profile', on_delete=models.CASCADE)
+    nickname = models.CharField(max_length=20, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=100, blank=True)
+    points = models.DecimalField(default=0, max_digits=30, decimal_places=2)
+    rating = models.DecimalField(default=4.0, max_digits=2, decimal_places=1)
 
     def __str__(self):
         return self.user.username
