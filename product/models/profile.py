@@ -2,6 +2,7 @@ import re
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.shortcuts import reverse
 
 
 def phone_number_validator(value):
@@ -25,3 +26,6 @@ class Profile(models.Model):
         if self.phone:
             phone_number_validator(self.phone)
         return super().clean()
+
+    def get_absolute_url(self):
+        return reverse('profile_detail', args=[self.user.username])

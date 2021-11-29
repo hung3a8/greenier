@@ -68,6 +68,7 @@ target/
 
 ### Django ###
 local_settings.py
+local_urls.py
 db.sqlite3
 media
 static
