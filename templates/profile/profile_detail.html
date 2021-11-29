@@ -11,8 +11,8 @@
       <div class="col-md-3">
         <img class="rounded-circle" src="https://via.placeholder.com/256"> 
         <div class="mt-4">
-          <h2>{{user.username}}</h2>
-          <div class="lead">@{{object.nickname}}</div>
+          <h2>{{user.first_name}} {{user.last_name}}</h2>
+          <div class="lead">@{{user.username}}</div>
           <hr/ >
           <i class="fa fa-leaf" aria-hidden="true"></i> Greenier Points: {{object.points}}
           <br />
@@ -32,7 +32,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="sales">
-            <i class="fa fa-store" aria-hidden="true"></i> Sales</a>
+            <i class="fa fa-store" aria-hidden="true"></i> Your products</a>
           </li>
         </ul>
       </div>
