@@ -3,13 +3,13 @@ import json
 from urllib.parse import quote
 
 from jinja2.ext import Extension
-from martor.templatetags.martortags import markdownify
+from martor.templatetags.martortags import safe_markdown
 from statici18n.templatetags.statici18n import inlinei18n
 
 from . import registry
 
 registry.function('str', str)
-registry.filter('markdown', markdownify)
+registry.filter('markdown', safe_markdown)
 registry.filter('str', str)
 registry.filter('json', json.dumps)
 registry.filter('urlquote', quote)

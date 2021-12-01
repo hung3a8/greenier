@@ -1,0 +1,8 @@
+.filemage-preview {
+    max-height: 200px;
+    transition: all .2s ease-in-out;
+}
+
+.filemage-preview:hover {
+    transform: scale(1.5);
+}

@@ -1,6 +1,11 @@
+from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from martor.widgets import AdminMartorWidget
+
+from product.models import Product
+from product.widgets import AdminHeavySelect2MultipleWidget, FilemageWidget
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -24,3 +29,16 @@ class CustomAuthenticationForm(AuthenticationForm):
         if user is not None:
             super(CustomAuthenticationForm, self).confirm_login_allowed(user)
         return super(CustomAuthenticationForm, self).clean()
+
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'categories', 'price', 'display_image', 'description']
+
+        widgets = {
+            'categories': AdminHeavySelect2MultipleWidget(data_view='product_category_select2',
+                                                          attrs={'style': 'width: 100%'}),
+            'display_image': FilemageWidget(),
+            'description': AdminMartorWidget(),
+        }

@@ -62,4 +62,4 @@ class UserSelect2View(Select2View):
 
 class CategorySelect2View(Select2View):
     def get_queryset(self):
-        return Category.objects.filter(name__icontains=self.term).annotate(name=F('name')).only('id')
+        return Category.objects.filter(name__icontains=self.term).only('id')
