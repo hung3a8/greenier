@@ -49,7 +49,6 @@ class Cart(models.Model):
             cart_product = self.cart_products.get(product__pk=product_id)
             cart_product.quantity = quantity
             cart_product.save()
-            print(cart_product.quantity)
             return True
         except CartProduct.DoesNotExist:
             product = Product.objects.get(pk=product_id)
