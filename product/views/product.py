@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView, UpdateView
 from martor.templatetags.martortags import markdownify
+from django.db.models import Q
 
 from product.models import Cart, Category, Product
 
@@ -12,6 +13,13 @@ class ProductMarketView(ListView):
     model = Product
     template_name = 'product/market.html'
     context_object_name = 'products'
+
+    def get_queryset(self):
+        search = self.request.GET.get('search', '')
+        queryset = Q(seller__user__username__icontains=search)
+        queryset |= Q(name__icontains=search)
+        queryset |= Q(categories__name__icontains=search)
+        return super(ProductMarketView, self).get_queryset().filter(queryset)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
