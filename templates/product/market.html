@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block media_css %}
+    <style>
+        .btn-light:hover {
+            background-color: gray !important;
+            border-color: gray !important;
+        }
+
+    .section-products {
+        padding: 30px 0 54px;
+    }
+
+    .section-products .header {
+        margin-bottom: 50px;
+    }
+
+    .section-products .single-product {
+        margin-bottom: 26px;
+    }
+
+    .section-products .single-product .product-img-top {
+        position: relative;
+        height: 250px;
+        max-height: 250px;
+        overflow: hidden;
+    }
+
+    .section-products .single-product .product-img-top::before {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .section-products .single-product:hover .product-img-top::before {
+        filter: blur(5px);
+        -webkit-filter: blur(5px);
+    }
+
+    .section-products .single-product .product-img-top .discount,
+    .section-products .single-product .product-img-top .new {
+        position: absolute;
+        top: 15px;
+        left: 20px;
+        color: #ffffff;
+        background-color: #fe302f;
+        padding: 2px 8px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+
+    .section-products .single-product .product-img-top .new {
+        left: 0;
+        background-color: #444444;
+    }
+
+    .section-products .single-product .product-img-top ul {
+        position: absolute;
+        bottom: -41px;
+        left: 20px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        opacity: 0;
+        transition: bottom 0.5s, opacity 0.5s;
+    }
+
+    .section-products .single-product:hover .product-img-top ul {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    .section-products .single-product .product-img-top ul li {
+        display: inline-block;
+        margin-right: 4px;
+    }
+
+    .section-products .single-product .product-img-top ul li a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #ffffff;
+        color: #444444;
+        text-align: center;
+        box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
+        transition: color 0.2s;
+    }
+
+    .section-products .single-product .product-img-top ul li a:hover {
+        color: #fe302f;
+    }
+
+    .section-products .single-product .product-detail .product-title {
+        font-size: 1rem;
+    }
+
+    .section-products .single-product .product-detail h4 {
+        display: inline-block;
+        font-size: 1rem;
+    }
+
+    .section-products .single-product .product-detail .product-old-price {
+        position: relative;
+        padding: 0 7px;
+        margin-right: 2px;
+        opacity: 0.6;
+    }
+
+    .section-products .single-product .product-detail .product-old-price::after {
+        position: absolute;
+        content: "";
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: #444444;
+        transform: translateY(-50%);
+    }
+    </style>
+{% endblock %}
+
+{% block media_js %}
+    <script>
+        {% include "product/media.js" %}
+        const userAction = async (id) => {
+            const response = await fetch('/product/' + id);
+            const resjson = await response.json(); //extract JSON from the http response
+            return resjson;
+        };
+
+        function addToCart(button, id = null) {
+            if (id == null) {
+                id = $(button).parent().parent().parent().parent().attr('id');
+            }
+            var quantity = 1;
+            update_cart(id, quantity, $(button));
+            window.location.href = "{{ url('cart_detail') }}";
+        }
+
+        $(function () {
+            $('a.product-detail-expand').click(function () {
+                userAction($(this).data('id')).then(res => {
+                    showModal($(this).data('id'), res.name, res.description, res.carousel, res.seller);
+                });
+            });
+
+            {% if only_product %}
+                data = JSON.parse('{{ only_product|escapejs }}');
+                showModal(data.id, data.name, data.description, data.carousel, data.seller);
+            {% endif %}
+        });
+
+        var modalWrap = null;
+        /**
+        *
+        * @param {string} title
+        * @param {string} description content of modal body
+        * @param {string} yesBtnLabel label of Yes button
+        * @param {string} noBtnLabel label of No button
+        * @param {function} callback callback function when click Yes button
+        */
+        const showModal = (id, title, description, carousel, seller, yesBtnLabel = 'Add to cart', noBtnLabel = 'Close', callback) => {
+            if (modalWrap !== null) {
+                modalWrap.remove();
+            }
+
+            modalWrap = document.createElement('div');
+            modalWrap.innerHTML = `
+                <div class="modal fade" tabindex="-1">
+                    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header bg-light">
+                                <h5 class="modal-title">${title}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                <div class="carousel-indicators">
+                                                    ${carousel.map((item, index) => `<li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" class="${index === 0 ? 'active' : ''}"></li>`).join('')}
+                                                </div>
+                                                <div class="carousel-inner">
+                                                    ${carousel.map((item, index) => `<div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                                        <img class="d-block w-100" src="${item}" alt="${index} slide">
+                                                    </div>`).join('')}
+                                                </div>
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Previous</span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Next</span>
+                                                </button>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h2>Description</h2>
+                                            <hr>
+                                            <p>${description}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="container mt-3">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item">
+                                                <a href="#home" class="nav-link active" data-bs-toggle="tab">Additional information</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#profile" class="nav-link" data-bs-toggle="tab">Related products</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade show active" id="home">
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Seller</th>
+                                                        <td><a href="/user/${seller}">${seller}</a></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane fade" id="profile">
+                                                <p>Related products</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${noBtnLabel}</button>
+                                <button onclick="addToCart(this, id=${id});" class="btn btn-primary modal-success-btn">${yesBtnLabel}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.append(modalWrap);
+
+            var modal = new bootstrap.Modal(modalWrap.querySelector('.modal'), {backdrop: 'static'});
+            modal.show();
+
+            {% if only_product %}
+                modalWrap.addEventListener('hide.bs.modal', function () {
+                    window.location.href = "{{ url('product_market') }}";
+                });
+            {% endif %}
+        }
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-9">
+            <div class="p-4 text-white bg-dark rounded-3">
+                <h2>Welcome to Greenier Market</h2>
+                <p>
+                    Choose your favorite products, or search for it below, and get them delivered to your door!
+                </p>
+                <form class="form-group" method="post">
+                    <div class="input-group justify-content-around">
+                        <input type="text" class="form-control mx-3 rounded-3" name="search" placeholder="Search for products...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-light" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {% if not only_product %}
+                <section class="section-products">
+                    <div class="row">
+                        {% for product in products %}
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                    <div id="{{ product.pk }}" class="single-product shadow-lg rounded-3">
+                                            <div class="product-img-top rounded-3" style="background: url('{{ product.display_image.split()[0] }}') no-repeat center; background-size: cover; transition: all 0.3s;">
+                                                {% if product.is_new %}<div class="new">New</div>{% endif %}
+                                                <ul>
+                                                    <li><a title="Add to cart" href="#" onclick="addToCart(this);"><i class="fas fa-shopping-cart"></i></a></li>
+                                                    <li><a title="Like" href="#"><i class="fas fa-heart"></i></a></li>
+                                                    <li><a title="Add to wishlist" href="#"><i class="fas fa-plus"></i></a></li>
+                                                    <li><a class="product-detail-expand" data-id="{{ product.id }}" href="#"><i class="fas fa-expand"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-detail card-body">
+                                                <h2>{{ product.name }}</h2>
+                                                <h4 class="product-price">${{ product.price }}</h4>
+                                            </div>
+                                    </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% include "pagination.html" %}
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            <div class="h-100 p-4 text-white bg-black rounded-3">
+                <h2>Categories</h2>
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <li class="list-group-item btn button btn-light my-2">
+                            <a class="text-black" href="">{{ category.name }}</a>
+                        </li>
+                    {% else %}
+                        <p>No categories found</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

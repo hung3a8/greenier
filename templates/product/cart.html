@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block media_js %}
+    <script>
+        {% include 'product/media.js' %}
+
+        function cartIncrease(button) {
+            var id = $(button).parent().parent().parent().attr('id');
+            var quantity = parseInt($('#productQuantity' + id).text());
+            $('#productQuantity' + id).text(quantity + 1);
+        };
+
+        function cartDecrease(button) {
+            var id = $(button).parent().parent().parent().attr('id');
+            var quantity = parseInt($('#productQuantity' + id).text());
+            if (quantity > 1) {
+                $('#productQuantity' + id).text(quantity - 1);
+            }
+        };
+
+        function cartDelete(button) {
+            $(button).parent().parent().parent().addClass('d-none');
+        }
+
+        $(function() {
+            $('#savecart').click(function () {
+                $(this).attr('disabled', 'disabled');
+                $(this).html("<i class='fa fa-spinner fa-spin'></i>");
+                pass = [];
+                $('.product').each(function () {
+                    var id = $(this).attr('id');
+                    var quantity = parseInt($('#productQuantity' + id).text());
+                    if ($(this).hasClass('d-none')) {
+                        quantity = "DEL";
+                    }
+                    pass.push(update_cart(id, quantity, $('#savecart')));
+                });
+                if (pass.length > 0) {
+                    Promise.allSettled(pass).then(
+                        (results) => results.forEach(
+                            (result) => {
+                                if (result.status == 'fulfilled') {
+                                    $('#savecart').html("Saved!");
+                                    $('#savecart').attr('disabled', false);
+                                    window.location.href = "{{ url('cart_detail') }}";
+                                } else {
+                                    alert("An error occured while saving your cart. Please try again.");
+                                }
+                            }
+                        )
+                    );
+                } else {
+                    // Empty cart
+                    $('#savecart').html("Saved!");
+                    $('#savecart').attr('disabled', false);
+                    window.location.href = "{{ url('cart_detail') }}";
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2 class="mb-3">{{ object }}</h2>
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="mb-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in cart.cart_products.all() %}
+                            <tr class="product" id="{{ product.product.pk }}">
+                                <td id="productName" class="border-0">{{ product.product }}</td>
+                                <td class="row border-0">
+                                    <p id="productQuantity{{ product.product.pk }}" class="col-md-8">{{ product.quantity }}</p>
+                                    <div class="col-md-4 d-sm-flex justify-content-lg-between">
+                                        <button onclick="cartIncrease(this);" title="Increase" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-circle-arrow-up"></i></button>
+                                        <button onclick="cartDecrease(this);" title="Decrease" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-circle-arrow-down"></i></button>
+                                        <button onclick="cartDelete(this)" title="Delete" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="2" class="border-0"><p class="fst-italic">Nothing in your cart? <a href="{{ url('product_market') }}">Why don't you buy some more?</a></p></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                <button id="savecart" class="btn btn-primary">Save cart</button>
+                <p><em></em></p>
+            </div>
+        </div>
+        <div class="col-lg-5 border-start border-3 border-dark">
+            <div class="mb-3">
+                <h3>Cart summary</h3>
+                <p>This is where we return the total cart value after perform some calculation</p>
+                <hr>
+                <button class="btn btn-primary w-100">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

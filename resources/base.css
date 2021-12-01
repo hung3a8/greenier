@@ -11,6 +11,16 @@ html {
 
 body {
     background-color: rgb(255, 249, 242);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Remove all hyperlink underline */
+a {
+    text-decoration: none;
+}
+
+h2 {
+    font-weight: bold;
 }
 
 /* Scrollbar */
