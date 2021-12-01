@@ -282,8 +282,7 @@
                                                 {% if product.is_new %}<div class="new">New</div>{% endif %}
                                                 <ul>
                                                     <li><a title="Add to cart" href="#" onclick="addToCart(this);"><i class="fas fa-shopping-cart"></i></a></li>
-                                                    <li><a title="Like" href="#"><i class="fas fa-heart"></i></a></li>
-                                                    <li><a title="Add to wishlist" href="#"><i class="fas fa-plus"></i></a></li>
+                                                    <li><a title="Add to wishlist" href="#"><i class="fas fa-heart"></i></a></li>
                                                     <li><a title="" class="product-detail-expand" data-id="{{ product.id }}" href="#"><i class="fas fa-expand"></i></a></li>
                                                     {% if product.is_editable_by(request.user) %}
                                                         <li><a data-id="{{ product.id }}" href="{{ url('product_update', product.id) }}"><i class="fas fa-cog"></i></a></li>
