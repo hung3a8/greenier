@@ -69,7 +69,7 @@ def update_cart(request):
     else:
         result = cart.update_cart(pk, quantity)
     return JsonResponse({
-        'result': "Success" if result else "Fail",
+        'result': 'Success' if result else 'Fail',
         'id': pk,
         'quantity': quantity,
     }, status=200 if result else 400)
