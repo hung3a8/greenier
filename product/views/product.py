@@ -3,7 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from martor.templatetags.martortags import markdownify
 
 from product.forms import ProductForm
