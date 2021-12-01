@@ -104,9 +104,10 @@ class ProductCreateView(LoginRequiredMixin, TitleMixin, CreateView):
     form_class = ProductForm
 
     def form_valid(self, form):
-        product = form.save(commit=False)
-        product.seller = self.request.user.profile
-        product.save()
+        self.object = form.save(commit=False)
+        self.object.seller = self.request.user.profile
+        self.object.save()
+        return super().form_valid(form)
 
 
 class ProductUpdateView(TitleMixin, ProductMixin, UpdateView):
