@@ -1,0 +1,9 @@
+<ul class="pagination justify-content-lg-between">
+    <li class="page-item {% if not page_obj.has_previous() %}disabled{% endif %}">
+        <a class="page-link" href="{% if page_obj.has_previous() %}{{ url('product_market', page=page_obj.previous_page_number()) }}{% endif %}" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+    <li class="page-item {% if not page_obj.has_next() %}disabled{% endif %}">
+        <a class="page-link" href="{% if page_obj.has_next() %}{{ url('product_market', page=page_obj.next_page_number()) }}{% endif %}">Previous</a>
+    </li>
+</ul>

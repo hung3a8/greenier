@@ -46,6 +46,7 @@ BAD_MAIL_PROVIDER_REGEX = ()
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SAFE_IMAGE_EXTENSIONS = ('.png', '.jpg')
+IMAGE_UPLOAD_DIR = 'images'
 
 # Change to other hosts if needed
 EMAIL_HOST = 'smtp.gmail.com'
@@ -105,7 +106,6 @@ MARTOR_MARKDOWN_EXTENSIONS = [
     'martor.extensions.mention',      # to parse markdown mention
     'martor.extensions.emoji',        # to parse markdown emoji
     'martor.extensions.mdx_video',    # to parse embed/iframe video
-    'martor.extensions.escape_html',  # to handle the XSS vulnerabilities
 ]
 
 # Markdown Extensions Configs
