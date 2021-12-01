@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 from django.views.generic import DetailView, ListView, UpdateView
 from martor.templatetags.martortags import markdownify
-from django.db.models import Q
 
 from product.models import Cart, Category, Product
 
