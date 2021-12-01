@@ -1,0 +1,26 @@
+{% extends "common-content.html" %}
+
+{% block media_css %}
+    {{ form.media.css }}
+{% endblock %}
+
+{% block media_js %}
+    {{ form.media.js }}
+    <script>
+        $(function () {
+            $('#submitButton').click(function() {
+                filemageRender();
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<form method="post" autocomplete="off">
+    {% csrf_token %}
+    <table class="table">
+        {{ form.as_table() }}
+    </table>
+    <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

@@ -1,0 +1,85 @@
+<script>
+    function filemageDelete(button) {
+        var id = $(button).attr('id');
+        $(button).parents('tr#' + id).remove();
+    }
+
+    function filemageUpload(event) {
+        let files = event.target.files;
+        let f = files[0];
+
+        var formdata = new FormData();
+        formdata.append('file', f, f.name);
+        formdata.append('csrfmiddlewaretoken', $("input[name='csrfmiddlewaretoken']").val());
+
+        $.ajax({
+            url: "{{ url('filemage_upload') }}",
+            type: 'POST',
+            data: formdata,
+            processData: false,
+            contentType: false,
+        }).then(function (data) {
+            id = $('#filemage-table').find('tr').last().attr('id');
+            $('#filemage-table tbody').append(`
+                <tr id="${id}">
+                    <td align="center">
+                        <div class="image-container">
+                            <img class="filemage-preview" src="${data.link}" />
+                        </div>
+                    </td>
+                    <td align="center">
+                        <div class="btn-group" role="group">
+                            <button id="${id}" data-toggle="tooltip" title="Delete" onclick="filemageDelete(this);" type="button" class="btn btn-primary btn-md"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        });
+    }
+
+    function filemageRender() {
+        result = '';
+        $('.filemage-preview').each(function () {
+            result += $(this).attr('src') + '\r\n';
+        });
+        $('#filemage-result').val(result);
+        return result;
+    }
+
+    $(function () {
+        $("button#filemageUpload").on("click", function () {
+            $("input#filemageUpload").trigger("click");
+        });
+        $("input#filemageUpload").on("change", filemageUpload);
+    });
+</script>
+
+<table id="filemage-table" class="table">
+    <thead>
+        <tr>
+            <th>Preview</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for image in value %}
+            <tr id="{{ loop.index }}">
+                <td align="center">
+                    <div class="image-container">
+                        <img class="filemage-preview" src="{{ image }}" />
+                    </div>
+                </td>
+                <td align="center">
+                    <div class="btn-group" role="group">
+                        <button id="{{ loop.index }}" data-toggle="tooltip" title="Delete" onclick="filemageDelete(this);" type="button" class="btn btn-primary btn-md"><i class="fas fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<input id="filemageUpload" type="file" style="display: none" />
+<button id="filemageUpload" type="button" class="btn btn-primary w-100">Upload</button>
+
+<input id="filemage-result" type="hidden" name="{{ widget.name }}" value="{{ widget.value }}" />

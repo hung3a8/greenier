@@ -1,11 +1,25 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
-from django.views.generic import DetailView, ListView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from martor.templatetags.martortags import markdownify
 
+from product.forms import ProductForm
 from product.models import Cart, Category, Product
+from product.utils.views import TitleMixin
+
+
+class ProductMixin(object):
+    model = Product
+    pk_url_kwarg = 'pk'
+
+    def get_object(self, queryset=None):
+        product = super(ProductMixin, self).get_object(queryset)
+        if not product.is_editable_by(self.request.user):
+            raise PermissionDenied
+        return product
 
 
 class ProductMarketView(ListView):
@@ -83,6 +97,20 @@ def update_cart(request):
     }, status=200 if result else 400)
 
 
-class ProductUpdateView(UpdateView):
+class ProductCreateView(LoginRequiredMixin, TitleMixin, CreateView):
+    title = 'Create new product'
     model = Product
-    template_name = 'product/product_update.html'
+    template_name = 'product/edit.html'
+    form_class = ProductForm
+
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.seller = self.request.user.profile
+        product.save()
+
+
+class ProductUpdateView(TitleMixin, ProductMixin, UpdateView):
+    title = 'Update product'
+    model = Product
+    template_name = 'product/edit.html'
+    form_class = ProductForm

@@ -262,9 +262,10 @@
                 <p>
                     Choose your favorite products, or search for it below, and get them delivered to your door!
                 </p>
-                <form class="form-group" method="post">
+                <p>Wana sell something? <a href="{{ url('product_create') }}">Upload here</a> and let Greenier sell them for you!</p>
+                <form class="form-group" method="GET">
                     <div class="input-group justify-content-around">
-                        <input type="text" class="form-control mx-3 rounded-3" name="search" placeholder="Search for products...">
+                        <input type="text" class="form-control mx-3 rounded-3" name="search" placeholder="Search for products..." value="{{ request.GET.get('search', '') }}">
                         <div class="input-group-append">
                             <button class="btn btn-outline-light" type="submit">Search</button>
                         </div>
@@ -283,7 +284,10 @@
                                                     <li><a title="Add to cart" href="#" onclick="addToCart(this);"><i class="fas fa-shopping-cart"></i></a></li>
                                                     <li><a title="Like" href="#"><i class="fas fa-heart"></i></a></li>
                                                     <li><a title="Add to wishlist" href="#"><i class="fas fa-plus"></i></a></li>
-                                                    <li><a class="product-detail-expand" data-id="{{ product.id }}" href="#"><i class="fas fa-expand"></i></a></li>
+                                                    <li><a title="" class="product-detail-expand" data-id="{{ product.id }}" href="#"><i class="fas fa-expand"></i></a></li>
+                                                    {% if product.is_editable_by(request.user) %}
+                                                        <li><a data-id="{{ product.id }}" href="{{ url('product_update', product.id) }}"><i class="fas fa-cog"></i></a></li>
+                                                    {% endif %}
                                                 </ul>
                                             </div>
                                             <div class="product-detail card-body">

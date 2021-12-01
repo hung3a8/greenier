@@ -29,6 +29,14 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('product_market') + '?id=' + str(self.id)
 
+    def is_editable_by(self, user):
+        if not user.is_authenticated:
+            return False
+        if user.has_perm('product.edit_product'):
+            return True
+        if user.is_staff:
+            return True
+
 
 class Cart(models.Model):
     user = models.OneToOneField(Profile, related_name='cart', on_delete=models.CASCADE,
