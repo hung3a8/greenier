@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='product',
             name='display_image',
-            field=models.CharField(default='', help_text='URL for image.', max_length=200),
+            field=models.TextField(default='', help_text='URL for image.'),
         ),
         migrations.AddField(
             model_name='product',

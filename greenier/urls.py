@@ -21,7 +21,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from product.views import TitledView, home, profile, register, user
+from product.views import TitledView, home, product, profile, register, user
+from product.views.select2 import CategorySelect2View, UserSelect2View
+
 
 register_patterns = [
     url(r'^login/$', user.CustomLoginView.as_view(), name='auth_login'),
@@ -47,6 +49,20 @@ urlpatterns = [
     url(r'^user/(?P<user>[\w-]+)/', include([
         url(r'^$', profile.ProfileDetailView.as_view(), name='profile_detail'),
         url(r'^update$', profile.ProfileUpdateView.as_view(), name='profile_update'),
+    ])),
+
+    url(r'^market/(?P<page>\d+)?$', product.ProductMarketView.as_view(), name='product_market'),
+    url(r'^cart/', include([
+        url(r'^$', product.ProductCartView.as_view(), name='cart_detail'),
+        url(r'^update$', product.update_cart, name='cart_update'),
+    ])),
+    url(r'^product/', include([
+        url(r'^(?P<pk>\d+)', product.product_detail, name='product_detail'),
+    ])),
+
+    url(r'^product-select2/', include([
+        url(r'^user/$', UserSelect2View.as_view(), name='product_user_select2'),
+        url(r'^category/$', CategorySelect2View.as_view(), name='product_category_select2'),
     ])),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
