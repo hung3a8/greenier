@@ -30,6 +30,8 @@ class Profile(models.Model):
         if self.location:
             try:
                 location = geolocator.geocode(self.location)
+                if location == None:
+                    raise ValidationError('The location could not be found.')
                 geocode = Geocode.objects.get_or_create(profile=self)[0]
                 geocode.update_geocode(location.latitude, location.longitude, location.raw)
                 geocode.save()
