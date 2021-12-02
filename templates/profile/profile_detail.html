@@ -13,7 +13,7 @@
           <h2>{{user.first_name}} {{user.last_name}}</h2>
           <div class="lead">
             @{{user.username}}
-            {% if user.username == request.user.username %}
+            {% if object.username == request.user.username %}
               <a class="btn btn-primary btn-sm" href="{{ url('profile_update', request.user.username) }}">Settings</a>
             {% endif %}
           </div>
