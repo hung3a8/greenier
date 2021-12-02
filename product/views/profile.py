@@ -2,8 +2,10 @@ from django.contrib.auth.views import redirect_to_login
 from django.http import Http404
 from django.views.generic import DetailView, UpdateView
 
+from product.forms import ProfileEditForm
 from product.models import Profile
 from product.models.product import Product
+from product.utils.views import TitleMixin
 from product.views import generic_message
 
 
@@ -41,6 +43,8 @@ class ProfileDetailView(UserMixin, DetailView):
                                    self.kwargs.get(self.slug_url_kwarg, None))
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(TitleMixin, UserMixin, UpdateView):
+    title = 'Edit profile'
     model = Profile
-    template_name = 'profile/profile_update.html'
+    template_name = 'profile/edit.html'
+    form_class = ProfileEditForm

@@ -11,7 +11,12 @@
         <img class="rounded-circle" src="https://via.placeholder.com/256">
         <div class="mt-4">
           <h2>{{user.first_name}} {{user.last_name}}</h2>
-          <div class="lead">@{{user.username}}</div>
+          <div class="lead">
+            @{{user.username}}
+            {% if user.username == request.user.username %}
+              <a class="btn btn-primary btn-sm" href="{{ url('profile_update', request.user.username) }}">Settings</a>
+            {% endif %}
+          </div>
           <hr/ >
           <i class="fa fa-leaf" aria-hidden="true"></i> Greenier Points: {{object.points}}
           <br />
@@ -37,6 +42,7 @@
             </div>
             <div class="tab-pane fade" id="sales">
               <div class="container m-2">
+                <a class="text-white btn btn-primary w-100" href="{{ url('product_market')+'?search='+object.user.username }}">Go to all products</a>
                 <section class="section-products">
                   <div class="row">
                     {% for product in products %}

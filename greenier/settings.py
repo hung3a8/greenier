@@ -48,6 +48,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SAFE_IMAGE_EXTENSIONS = ('.png', '.jpg')
 IMAGE_UPLOAD_DIR = 'images'
 
+MAX_DISTANCE = 5  # in km
+
 # Change to other hosts if needed
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
@@ -158,10 +160,12 @@ TEMPLATES = [
             'match_extension': ('.html', '.txt'),
             'match_regex': '^(?!admin/)',
             'context_processors': [
-                'django.template.context_processors.media',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'product.template_context.site_name',
                 'product.template_context.navbar',
@@ -176,7 +180,9 @@ TEMPLATES = [
     },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

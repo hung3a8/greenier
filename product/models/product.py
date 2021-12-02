@@ -1,6 +1,8 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.utils.functional import cached_property
 
+from product.utils.functionals import calculate_price
 from .profile import Profile
 
 
@@ -32,10 +34,14 @@ class Product(models.Model):
     def is_editable_by(self, user):
         if not user.is_authenticated:
             return False
-        if user.has_perm('product.edit_product'):
+        if user == self.seller.user:
             return True
         if user.is_staff:
             return True
+
+    def total_price(self, user):
+        return calculate_price(float(self.price), user.rating,
+                               user.geocode.geocode(), self.seller.geocode.geocode())
 
 
 class Cart(models.Model):
@@ -53,6 +59,9 @@ class Cart(models.Model):
         """
         Add new product or update the quantity of a product in the cart.
         """
+        # User cannot buy their own stuffs
+        if self.user.id == Product.objects.get(pk=product_id).seller.id:
+            return False
         try:
             cart_product = self.cart_products.get(product__pk=product_id)
             cart_product.quantity = quantity
@@ -80,3 +89,16 @@ class CartProduct(models.Model):
     cart = models.ForeignKey(Cart, related_name='cart_products', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='cart_products', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+
+    @cached_property
+    def seller(self):
+        return self.product.seller
+
+    @cached_property
+    def buyer(self):
+        return self.cart.user
+
+    @cached_property
+    def total_price(self):
+        return calculate_price(float(self.product.price) * self.quantity, self.buyer.rating,
+                               self.buyer.geocode.geocode(), self.seller.geocode.geocode())

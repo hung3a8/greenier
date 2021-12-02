@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from martor.widgets import AdminMartorWidget
 
-from product.models import Product
+from product.models import Product, Profile
 from product.widgets import AdminHeavySelect2MultipleWidget, FilemageWidget
 
 
@@ -41,4 +41,17 @@ class ProductForm(forms.ModelForm):
                                                           attrs={'style': 'width: 100%'}),
             'display_image': FilemageWidget(),
             'description': AdminMartorWidget(),
+        }
+
+
+class ProfileEditForm(forms.ModelForm):
+    fullname = forms.CharField(max_length=100, required=False)
+
+    class Meta:
+        model = Profile
+        fields = ['location', 'phone', 'bio']
+
+        widgets = {
+            'bio': AdminMartorWidget(),
+            'fullname': forms.TextInput(attrs={'style': 'width: 100%;'}),
         }
