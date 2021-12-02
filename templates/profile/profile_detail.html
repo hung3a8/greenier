@@ -10,10 +10,9 @@
       <div class="col-md-3">
         <img class="rounded-circle" src="https://via.placeholder.com/256">
         <div class="mt-4">
-          <h2>{{user.first_name}} {{user.last_name}}</h2>
           <div class="lead">
-            @{{user.username}}
-            {% if object.username == request.user.username %}
+            @{{profile.user.username}}
+            {% if profile.user.username == request.user.username %}
               <a class="btn btn-primary btn-sm" href="{{ url('profile_update', request.user.username) }}">Settings</a>
             {% endif %}
           </div>
