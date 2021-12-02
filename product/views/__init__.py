@@ -1,1 +1,1 @@
-from .extra import TitledView
+from .extra import TitledView, generic_message

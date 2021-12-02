@@ -1,6 +1,7 @@
 import re
 
 from django.conf import settings
+from django.contrib.sites.shortcuts import get_current_site
 
 from product.models import Navbar
 
@@ -28,4 +29,5 @@ def navbar(request):
 def site_name(request):
     return {'SITE_NAME': settings.SITE_NAME,
             'SITE_LONG_NAME': settings.SITE_LONG_NAME,
-            'SITE_ADMIN_EMAIL': settings.SITE_ADMIN_EMAIL}
+            'SITE_ADMIN_EMAIL': settings.SITE_ADMIN_EMAIL,
+            'site': get_current_site(request)}

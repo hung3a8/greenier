@@ -36,6 +36,7 @@
             {% if user.is_authenticated %}
             <form class="form-inline" action="{{ url('auth_logout') }}" method="POST">
                 {% csrf_token %}
+                <a class="nav-item ml-3" title="Shopping cart" href="{{ url('cart_detail') }}"><i class="fas fa-shopping-cart"></i></a>
                 <span class="navbar-text">Welcome, <a href="/user/{{ user.username }}">{{ user.username }}</a> |</span>
                 {% if user.is_staff %}
                     <a class="navbar-text" href="{{ url('admin:index') }}">Admin Dashboard |</a>

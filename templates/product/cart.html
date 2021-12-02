@@ -64,9 +64,9 @@
 <div class="container">
     <h2 class="mb-3">{{ object }}</h2>
     <div class="row">
-        <div class="col-lg-7">
+        <div class="col-lg-6">
             <div class="mb-3">
-                <table class="table">
+                <table class="table table-borderless">
                     <thead>
                         <tr>
                             <th>Product</th>
@@ -75,21 +75,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for product in cart.cart_products.all() %}
+                        {% for product in products %}
                             <tr class="product" id="{{ product.product.pk }}">
-                                <td id="productName" class="border-0">{{ product.product }}</td>
-                                <td class="row border-0">
-                                    <p id="productQuantity{{ product.product.pk }}" class="col-md-8">{{ product.quantity }}</p>
-                                    <div class="col-md-4 d-sm-flex justify-content-lg-between">
-                                        <button onclick="cartIncrease(this);" title="Increase" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-circle-arrow-up"></i></button>
-                                        <button onclick="cartDecrease(this);" title="Decrease" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-circle-arrow-down"></i></button>
-                                        <button onclick="cartDelete(this)" title="Delete" data-toggle="tooltip" class="btn btn-sm btn-primary"><i class="fas fa-trash"></i> Delete</button>
+                                <td id="productName">{{ product.product }}</td>
+                                <td class="row">
+                                    <p id="productQuantity{{ product.product.pk }}" class="col-md-6">{{ product.quantity }}</p>
+                                    <div class="col-md-6 d-sm-flex justify-content-lg-center">
+                                        <button onclick="cartIncrease(this);" title="Increase" data-toggle="tooltip" class="btn btn-sm btn-primary mx-1"><i class="fas fa-circle-arrow-up"></i></button>
+                                        <button onclick="cartDecrease(this);" title="Decrease" data-toggle="tooltip" class="btn btn-sm btn-primary mx-1"><i class="fas fa-circle-arrow-down"></i></button>
+                                        <button onclick="cartDelete(this)" title="Delete" data-toggle="tooltip" class="btn btn-sm btn-primary mx-1"><i class="fas fa-trash"></i> Delete</button>
                                     </div>
                                 </td>
                             </tr>
                         {% else %}
                             <tr>
-                                <td colspan="2" class="border-0"><p class="fst-italic">Nothing in your cart? <a href="{{ url('product_market') }}">Why don't you buy some more?</a></p></td>
+                                <td colspan="2"><p class="fst-italic">Nothing in your cart? <a href="{{ url('product_market') }}">Why don't you buy some more?</a></p></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -99,10 +99,32 @@
                 <p><em></em></p>
             </div>
         </div>
-        <div class="col-lg-5 border-start border-3 border-dark">
+        <div class="col-lg-6 border-start border-3 border-dark">
             <div class="mb-3">
                 <h3>Cart summary</h3>
-                <p>This is where we return the total cart value after perform some calculation</p>
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>{{ product.product }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>{{ product.total_price }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="3"><p class="fst-italic">You haven't bought anything yet!</p></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </tbody>
+                </table>
                 <hr>
                 <button class="btn btn-primary w-100">Checkout</button>
             </div>

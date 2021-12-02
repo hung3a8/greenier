@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h2>{{object.name}}</h2>
+<hr />
+<div class="row">
+  <div class="col-md-3">
+  (image)
+  </div>
+  <div class="col-md-9">
+    Seller: (username of the seller + picture)
+    <div class="lead">{{object.price}}</div>
+    <button>
+    <i class="fa fa-cart-arrow-down" aria-hidden="true"> Put into Cart</i>
+    </button>
+    {{object.description|markdown}}
+  </div>
+</div>
+{% endblock body %}

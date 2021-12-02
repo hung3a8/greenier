@@ -1,0 +1,13 @@
+<div class="card-deck">
+{% for product in object.products %}
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1561154464-82e9adf32764?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{product.name}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{product.price}}</h6>
+      <p class="card-text">{{product.description}}</p>
+    </div>
+  </div>
+{% endfor %}
+</div>
+

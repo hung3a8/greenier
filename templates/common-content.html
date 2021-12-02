@@ -6,7 +6,9 @@
         <div class="col-md-12">
             <h1 class="title">{{ title }}</h1>
             <hr>
-            {% block content %}{% endblock %}
+            {% block content %}
+                {{ message }}
+            {% endblock %}
         </div>
     </div>
 </div>

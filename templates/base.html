@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ SITE_NAME }} - {{ SITE_LONG_NAME }}</title>
+    {% if request.user.is_authenticated and not request.user.profile.valid and request.path != url('profile_update', request.user.username) %}
+        <script>
+            window.location.href = "{{ url('profile_update', request.user.username) }}";
+        </script>
+    {% endif %}
     <link rel="stylesheet" href="{{ static('bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ static('bootstrap/css/bootstrap-grid.min.css') }}">
     <link rel="stylesheet" href="{{ static('fontawesome/css/all.min.css') }}">

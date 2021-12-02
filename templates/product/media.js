@@ -1,4 +1,4 @@
-function update_cart(product_id, quantity, sendButton) {
+function update_cart(product_id, quantity, sendButton, failcallback = null) {
     return $.ajax({
         url: "{{ url('cart_update') }}",
         type: 'post',
@@ -13,5 +13,6 @@ function update_cart(product_id, quantity, sendButton) {
         complete: function() {
             sendButton.button('reset');
         },
+        error: failcallback,
     });
 };

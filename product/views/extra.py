@@ -2,6 +2,7 @@ import os
 
 from django.conf import settings
 from django.core.files.storage import default_storage
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 
@@ -16,7 +17,15 @@ class TitledView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.kwargs.get('title', '')
+        context['message'] = self.kwargs.get('message', '')
         return context
+
+
+def generic_message(request, title, message, status=None):
+    return render(request, 'common-content.html', {
+        'message': message,
+        'title': title,
+    }, status=status)
 
 
 def picture_carousel(media_dir, prefix=''):

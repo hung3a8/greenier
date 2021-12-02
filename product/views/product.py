@@ -63,8 +63,8 @@ def product_detail(request, pk):
 
 class ProductCartView(LoginRequiredMixin, DetailView):
     model = Cart
-
     template_name = 'product/cart.html'
+    context_object_name = 'cart'
 
     def get_object(self, queryset=None):
         try:
@@ -74,6 +74,8 @@ class ProductCartView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['products'] = self.object.cart_products.all()
+        context['total'] = sum([product.total_price for product in context['products']])
         return context
 
     def get(self, request, *args, **kwargs):

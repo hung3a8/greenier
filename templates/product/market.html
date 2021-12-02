@@ -1,125 +1,7 @@
 {% extends "base.html" %}
 
 {% block media_css %}
-    <style>
-        .btn-light:hover {
-            background-color: gray !important;
-            border-color: gray !important;
-        }
-
-    .section-products {
-        padding: 30px 0 54px;
-    }
-
-    .section-products .header {
-        margin-bottom: 50px;
-    }
-
-    .section-products .single-product {
-        margin-bottom: 26px;
-    }
-
-    .section-products .single-product .product-img-top {
-        position: relative;
-        height: 250px;
-        max-height: 250px;
-        overflow: hidden;
-    }
-
-    .section-products .single-product .product-img-top::before {
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-    }
-
-    .section-products .single-product:hover .product-img-top::before {
-        filter: blur(5px);
-        -webkit-filter: blur(5px);
-    }
-
-    .section-products .single-product .product-img-top .discount,
-    .section-products .single-product .product-img-top .new {
-        position: absolute;
-        top: 15px;
-        left: 20px;
-        color: #ffffff;
-        background-color: #fe302f;
-        padding: 2px 8px;
-        text-transform: uppercase;
-        font-size: 0.85rem;
-    }
-
-    .section-products .single-product .product-img-top .new {
-        left: 0;
-        background-color: #444444;
-    }
-
-    .section-products .single-product .product-img-top ul {
-        position: absolute;
-        bottom: -41px;
-        left: 20px;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        opacity: 0;
-        transition: bottom 0.5s, opacity 0.5s;
-    }
-
-    .section-products .single-product:hover .product-img-top ul {
-        bottom: 30px;
-        opacity: 1;
-    }
-
-    .section-products .single-product .product-img-top ul li {
-        display: inline-block;
-        margin-right: 4px;
-    }
-
-    .section-products .single-product .product-img-top ul li a {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        background-color: #ffffff;
-        color: #444444;
-        text-align: center;
-        box-shadow: 0 2px 20px rgb(50 50 50 / 10%);
-        transition: color 0.2s;
-    }
-
-    .section-products .single-product .product-img-top ul li a:hover {
-        color: #fe302f;
-    }
-
-    .section-products .single-product .product-detail .product-title {
-        font-size: 1rem;
-    }
-
-    .section-products .single-product .product-detail h4 {
-        display: inline-block;
-        font-size: 1rem;
-    }
-
-    .section-products .single-product .product-detail .product-old-price {
-        position: relative;
-        padding: 0 7px;
-        margin-right: 2px;
-        opacity: 0.6;
-    }
-
-    .section-products .single-product .product-detail .product-old-price::after {
-        position: absolute;
-        content: "";
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: #444444;
-        transform: translateY(-50%);
-    }
-    </style>
+    <link rel="stylesheet" href="{{ static('product.css') }}">
 {% endblock %}
 
 {% block media_js %}
@@ -136,14 +18,18 @@
                 id = $(button).parent().parent().parent().parent().attr('id');
             }
             var quantity = 1;
-            update_cart(id, quantity, $(button));
-            window.location.href = "{{ url('cart_detail') }}";
+            update_cart(id, quantity, $(button), function (data) {
+                alert("An error occured while processing your request. Remember that you cannot buy your own products.");
+                location.reload();
+            }).then(function () {
+                window.location.href = "{{ url('cart_detail') }}";
+            });
         }
 
         $(function () {
             $('a.product-detail-expand').click(function () {
                 userAction($(this).data('id')).then(res => {
-                    showModal($(this).data('id'), res.name, res.description, res.carousel, res.seller);
+                    showModal($(this).data('id'), res.name, res.description, res.carousel, res.seller, res.price);
                 });
             });
 
@@ -162,7 +48,7 @@
         * @param {string} noBtnLabel label of No button
         * @param {function} callback callback function when click Yes button
         */
-        const showModal = (id, title, description, carousel, seller, yesBtnLabel = 'Add to cart', noBtnLabel = 'Close', callback) => {
+        const showModal = (id, title, description, carousel, seller, price, yesBtnLabel = 'Add to cart', noBtnLabel = 'Close', callback) => {
             if (modalWrap !== null) {
                 modalWrap.remove();
             }
@@ -221,6 +107,10 @@
                                                     <tr>
                                                         <th>Seller</th>
                                                         <td><a href="/user/${seller}">${seller}</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Price</th>
+                                                        <td>${price}</td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -281,7 +171,7 @@
                                             <div class="product-img-top rounded-3" style="background: url('{{ product.display_image.split()[0] }}') no-repeat center; background-size: cover; transition: all 0.3s;">
                                                 {% if product.is_new %}<div class="new">New</div>{% endif %}
                                                 <ul>
-                                                    <li><a title="Add to cart" href="#" onclick="addToCart(this);"><i class="fas fa-shopping-cart"></i></a></li>
+                                                    <li><a title="Add to cart" href="#" onclick="addToCart(this, id={{ product.pk }});"><i class="fas fa-shopping-cart"></i></a></li>
                                                     <li><a title="Add to wishlist" href="#"><i class="fas fa-heart"></i></a></li>
                                                     <li><a title="" class="product-detail-expand" data-id="{{ product.id }}" href="#"><i class="fas fa-expand"></i></a></li>
                                                     {% if product.is_editable_by(request.user) %}
@@ -291,7 +181,9 @@
                                             </div>
                                             <div class="product-detail card-body">
                                                 <h2>{{ product.name }}</h2>
-                                                <h4 class="product-price">${{ product.price }}</h4>
+                                                {% set total=product.total_price(user=request.user.profile) %}
+                                                <h4 class="product-old-price">${{ product.price }}</h4>
+                                                <h4 class="product-price">${{ product.total_price(user=request.user.profile) }}</h4>
                                             </div>
                                     </div>
                             </div>
