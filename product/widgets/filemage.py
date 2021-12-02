@@ -9,7 +9,7 @@ class FilemageWidget(forms.Widget):
         self.template_name = 'widgets/filemage.html'
         template = get_template(self.template_name)
         context = self.get_context(name, value, attrs)
-        context['value'] = value.split('\r\n')
+        context['value'] = value.split('\r\n') if value else []
         print(context['value'])
         return template.render(context)
 

@@ -15,4 +15,4 @@ def calculate_price(price, rating, geocode1, geocode2):
     # settings.MAX_DISTANCE, otherwise it will significantly increase the price as bonus distance charge.
     d = distance.distance(geocode1, geocode2).km
     price = price - price / 2 * (1 - d / settings.MAX_DISTANCE)
-    return price
+    return round(price, 2)

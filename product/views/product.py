@@ -57,7 +57,7 @@ def product_detail(request, pk):
         'seller': product.seller.user.username,
         'description': mark_safe(markdownify(product.description)),
         'category': [category.name for category in product.categories.all()],
-        'carousel': product.display_image.split('\n'),
+        'carousel': product.display_image.split('\n') if product.display_image else [],
     })
 
 
