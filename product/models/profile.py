@@ -1,12 +1,13 @@
 import re
 
 import geopy
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.shortcuts import reverse
 
 
-geolocator = geopy.Nominatim(user_agent='greenier')
+geolocator = geopy.geocoders.AzureMaps(subscription_key=settings.GEOPY_AZURE_PRIMARY_KEY, user_agent='greenier')
 
 
 def phone_number_validator(value):

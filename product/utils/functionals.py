@@ -2,7 +2,7 @@ import geopy
 from django.conf import settings
 from geopy import distance
 
-geolocator = geopy.geocoders.Nominatim(user_agent='greenier')
+geolocator = geopy.geocoders.AzureMaps(subscription_key=settings.GEOPY_AZURE_PRIMARY_KEY, user_agent='greenier')
 
 
 def calculate_price(price, rating, geocode1, geocode2):
